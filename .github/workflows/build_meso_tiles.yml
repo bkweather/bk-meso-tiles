@@ -33,6 +33,13 @@ jobs:
         run: |
           python pipeline/build_demo_tiles.py
 
+                - name: DEBUG – list output_tiles
+        run: |
+          echo "PWD:"
+          pwd
+          echo "Tree of output_tiles:"
+          ls -R output_tiles || echo "output_tiles missing"
+
       - name: Upload tiles to R2
         uses: ryand56/r2-upload-action@v1
         with:
