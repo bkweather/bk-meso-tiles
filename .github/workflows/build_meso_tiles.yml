@@ -30,8 +30,13 @@ jobs:
 
       - name: Build demo tiles
         run: |
+          echo "PWD=$(pwd)"
+          echo "Repo files:"
+          ls -la
+          echo "Pipeline dir:"
+          ls -la pipeline
           python pipeline/build_demo_tiles.py
-
+          
       - name: DEBUG – list output_tiles
         run: |
           echo "Listing output_tiles:"
