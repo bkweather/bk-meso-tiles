@@ -3,15 +3,14 @@ name: Build Mesoscale Texture Tiles
 on:
   workflow_dispatch:
   schedule:
-    - cron: "15 * * * *"   # every hour at :15 (UTC)
+    - cron: "15 * * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -19,26 +18,24 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install system deps
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y gdal-bin python3-gdal
+          sudo apt-get install -y python3-gdal gdal-bin
 
-      - name: Install Python deps
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy requests rasterio pyproj pillow
+          pip install pillow
 
-      - name: Build tiles (demo skeleton)
+      - name: Build demo tiles
         run: |
           python pipeline/build_demo_tiles.py
 
-                - name: DEBUG – list output_tiles
+      - name: DEBUG – list output_tiles
         run: |
-          echo "PWD:"
-          pwd
-          echo "Tree of output_tiles:"
-          ls -R output_tiles || echo "output_tiles missing"
+          echo "Listing output_tiles:"
+          ls -R output_tiles || echo "output_tiles not found"
 
       - name: Upload tiles to R2
         uses: ryand56/r2-upload-action@v1
