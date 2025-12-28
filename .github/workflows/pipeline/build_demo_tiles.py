@@ -1,10 +1,12 @@
 import os
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
-# Produces output_tiles/meso/demo/z/x/y.png so we can verify the full serving path works.
-# Later we replace this with real GRIB processing.
+BASE = os.getcwd()
+OUT = os.path.join(BASE, "output_tiles", "meso", "demo")
 
-OUT = "output_tiles/meso/demo"
+print("Working directory:", BASE)
+print("Writing tiles to:", OUT)
+
 os.makedirs(OUT, exist_ok=True)
 
 def tile_path(z, x, y):
@@ -31,3 +33,8 @@ for z in [3, 4]:
             make_tile(z, x, y)
 
 print("Demo tiles written to", OUT)
+
+print("Files created:")
+for root, dirs, files in os.walk("output_tiles"):
+    for f in files:
+        print(os.path.join(root, f))
